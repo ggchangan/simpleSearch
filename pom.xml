@@ -56,6 +56,20 @@
             <version>portable-1.2.4</version>
         </dependency>
 
+        <!-- https://mvnrepository.com/artifact/us.codecraft/webmagic-core -->
+        <!-- http://webmagic.io/docs/zh/posts/ch2-install/with-maven.html -->
+        <dependency>
+            <groupId>us.codecraft</groupId>
+            <artifactId>webmagic-core</artifactId>
+            <version>0.6.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>us.codecraft</groupId>
+            <artifactId>webmagic-extension</artifactId>
+            <version>0.6.1</version>
+        </dependency>
+
     </dependencies>
 
     <build>
