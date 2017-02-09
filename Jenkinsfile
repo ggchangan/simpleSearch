@@ -7,7 +7,11 @@ node {
     }
     stage('Build') {
         echo 'Building....'
-        sh "'${mvnHome}/bin/mvn' --version"
+        if (isUnix()) {
+          sh "'${mvnHome}/bin/mvn' -Dmaven.test.failure.ignore clean package"
+        } else {
+          bat(/"${mvnHome}\bin\mvn" -Dmaven.test.failure.ignore clean package/)
+        }
     }
     stage('Test') {
         echo 'Building....'
