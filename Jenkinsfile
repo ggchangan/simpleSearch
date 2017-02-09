@@ -1,9 +1,13 @@
 #!groovy
 
 node {
+    def mvnHome
+    stage('prepare') {
+        mvnHome = tool 'maven'
+    }
     stage('Build') {
         echo 'Building....'
-        sh '/usr/maven3.3.9/bin/mvn --version'
+        sh '${mvnHome}/bin/mvn --version'
     }
     stage('Test') {
         echo 'Building....'
