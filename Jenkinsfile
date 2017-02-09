@@ -9,7 +9,7 @@ node {
     stage('Build') {
         echo 'Building....'
         if (isUnix()) {
-            dir('test2'){
+            dir('test2@script'){
                 sh "'${mvnHome}/bin/mvn' -Dmaven.test.failure.ignore clean package"
             }
         } else {
