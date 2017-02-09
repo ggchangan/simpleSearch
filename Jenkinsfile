@@ -3,9 +3,7 @@
 node {
     stage('Build') {
         echo 'Building....'
-        steps {
-            sh 'mvn --version'
-        }
+        sh 'mvn --version'
     }
     stage('Test') {
         echo 'Building....'
