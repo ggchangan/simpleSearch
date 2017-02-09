@@ -3,8 +3,13 @@
 node {
     def mvnHome
     stage('prepare') {
+        dir('test2'){
+            git branch: 'jenkins', credentialsId: '19497715-f9bf-4b86-9bbd-8728833031a0', url: 'git@github.com:ggchangan/simpleSearch.git'
+        }
+
         mvnHome = tool 'maven'
     }
+
     stage('Build') {
         echo 'Building....'
         if (isUnix()) {
