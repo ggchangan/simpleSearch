@@ -7,7 +7,7 @@ node {
     }
     stage('Build') {
         echo 'Building....'
-        sh '${mvnHome}/bin/mvn --version'
+        sh "'${mvnHome}/bin/mvn' --version"
     }
     stage('Test') {
         echo 'Building....'
