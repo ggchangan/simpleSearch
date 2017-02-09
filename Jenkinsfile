@@ -1,3 +1,13 @@
+#!groovy
+
 node {
-    echo 'hello world'
+    stage('Build') {
+        echo 'Building....'
+    }
+    stage('Test') {
+        echo 'Building....'
+    }
+    stage('Deploy') {
+        echo 'Deploying....'
+    }
 }
