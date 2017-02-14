@@ -1,100 +1,101 @@
+package crawler.basic;
 
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpStatus;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.util.EntityUtils;
 
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-
-import org.apache.commons.httpclient.DefaultHttpMethodRetryHandler;
-import org.apache.commons.httpclient.HttpClient;
-import org.apache.commons.httpclient.HttpException;
-import org.apache.commons.httpclient.HttpStatus;
-import org.apache.commons.httpclient.methods.GetMethod;
-import org.apache.commons.httpclient.params.HttpMethodParams;
+import java.nio.file.Path;
 
 public class DownLoadFile {
-	/**
-	 * ¸ù¾Ý url ºÍÍøÒ³ÀàÐÍÉú³ÉÐèÒª±£´æµÄÍøÒ³µÄÎÄ¼þÃû È¥³ýµô url ÖÐ·ÇÎÄ¼þÃû×Ö·û
-	 */
-	public  String getFileNameByUrl(String url,String contentType)
-	{
-		//remove http://
-		url=url.substring(7);
-		//text/htmlÀàÐÍ
-		if(contentType.indexOf("html")!=-1)
-		{
-			url= url.replaceAll("[\\?/:*|<>\"]", "_")+".html";
-			return url;
-		}
-		//Èçapplication/pdfÀàÐÍ
-		else
-		{
-          return url.replaceAll("[\\?/:*|<>\"]", "_")+"."+
-          contentType.substring(contentType.lastIndexOf("/")+1);
-		}	
-	}
+    public static final String SAVE_PAHT = "data";
+    /**
+     * ï¿½ï¿½ï¿½ï¿½ url ï¿½ï¿½ï¿½ï¿½Ò³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Òªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò³ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½ È¥ï¿½ï¿½ï¿½ï¿½ url ï¿½Ð·ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½Ö·ï¿½
+     */
+    public String getFileNameByUrl(String url, String contentType) {
+        System.out.println("åŽŸå§‹URLï¼š" + url);
+        //remove http://
+        url = url.substring(7);
+        String filename;
+        //text/htmlï¿½ï¿½ï¿½ï¿½
+        if (contentType.indexOf("html") != -1) {
+            filename = url.replaceAll("[\\?/:*|<>\"]", "_") + ".html";
+        }
+        else {
+            filename = url.replaceAll("[\\?/:*|<>\"]", "_") + "." +
+                contentType.substring(contentType.lastIndexOf("/") + 1);
+        }
 
-	/**
-	 * ±£´æÍøÒ³×Ö½ÚÊý×éµ½±¾µØÎÄ¼þ filePath ÎªÒª±£´æµÄÎÄ¼þµÄÏà¶ÔµØÖ·
-	 */
-	private void saveToLocal(byte[] data, String filePath) {
-		try {
-			DataOutputStream out = new DataOutputStream(new FileOutputStream(
-					new File(filePath)));
-			for (int i = 0; i < data.length; i++)
-				out.write(data[i]);
-			out.flush();
-			out.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
+        System.out.println("å¤„ç†ä¹‹åŽæ–‡ä»¶åï¼š" + filename);
+        return filename;
+    }
 
-	/* ÏÂÔØ url Ö¸ÏòµÄÍøÒ³ */
-	public String downloadFile(String url) {
-		String filePath = null;
-		/* 1.Éú³É HttpClinet ¶ÔÏó²¢ÉèÖÃ²ÎÊý */
-		HttpClient httpClient = new HttpClient();
-		// ÉèÖÃ Http Á¬½Ó³¬Ê± 5s
-		httpClient.getHttpConnectionManager().getParams().setConnectionTimeout(
-				5000);
+    /**
+     * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò³ï¿½Ö½ï¿½ï¿½ï¿½ï¿½éµ½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½ filePath ÎªÒªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½Ôµï¿½Ö·
+     */
+    private void saveToLocal(byte[] data, String filePath) {
+        try {
+            DataOutputStream out = new DataOutputStream(new FileOutputStream(new File(filePath)));
+            for (int i = 0; i < data.length; i++)
+                out.write(data[i]);
+            out.flush();
+            out.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
-		/* 2.Éú³É GetMethod ¶ÔÏó²¢ÉèÖÃ²ÎÊý */
-		GetMethod getMethod = new GetMethod(url);
-		// ÉèÖÃ get ÇëÇó³¬Ê± 5s
-		getMethod.getParams().setParameter(HttpMethodParams.SO_TIMEOUT, 5000);
-		// ÉèÖÃÇëÇóÖØÊÔ´¦Àí
-		getMethod.getParams().setParameter(HttpMethodParams.RETRY_HANDLER,
-				new DefaultHttpMethodRetryHandler());
+    /* ï¿½ï¿½ï¿½ï¿½ url Ö¸ï¿½ï¿½ï¿½ï¿½ï¿½Ò³ */
+    public String downloadFile(String url) {
+        String filePath = null;
+        CloseableHttpClient httpclient = HttpClients.createDefault();
+        HttpGet httpGet = new HttpGet(url);
 
-		/* 3.Ö´ÐÐ HTTP GET ÇëÇó */
-		try {
-			int statusCode = httpClient.executeMethod(getMethod);
-			// ÅÐ¶Ï·ÃÎÊµÄ×´Ì¬Âë
-			if (statusCode != HttpStatus.SC_OK) {
-				System.err.println("Method failed: "
-						+ getMethod.getStatusLine());
-				filePath = null;
-			}
+        CloseableHttpResponse response = null;
+        try {
+            response = httpclient.execute(httpGet);
+            int statusCode = response.getStatusLine().getStatusCode();
+            if (statusCode != HttpStatus.SC_OK){
+                System.err.println("Method failed: " + response.getStatusLine());
+                filePath = null;
+            }
 
-			/* 4.´¦Àí HTTP ÏìÓ¦ÄÚÈÝ */
-			byte[] responseBody = getMethod.getResponseBody();// ¶ÁÈ¡Îª×Ö½ÚÊý×é
-			// ¸ù¾ÝÍøÒ³ url Éú³É±£´æÊ±µÄÎÄ¼þÃû
-			filePath = "temp\\"
-					+ getFileNameByUrl(url, getMethod.getResponseHeader(
-							"Content-Type").getValue());
-			saveToLocal(responseBody, filePath);
-		} catch (HttpException e) {
-			// ·¢ÉúÖÂÃüµÄÒì³££¬¿ÉÄÜÊÇÐ­Òé²»¶Ô»òÕß·µ»ØµÄÄÚÈÝÓÐÎÊÌâ
-			System.out.println("Please check your provided http address!");
-			e.printStackTrace();
-		} catch (IOException e) {
-			// ·¢ÉúÍøÂçÒì³£
-			e.printStackTrace();
-		} finally {
-			// ÊÍ·ÅÁ¬½Ó
-			getMethod.releaseConnection();
-		}
-		return filePath;
-	}
+            HttpEntity entity = response.getEntity();
+            byte[] responseBody = EntityUtils.toByteArray(entity);
+            String contentType = response.getFirstHeader("Content-Type").getValue();
+            File path = new File(SAVE_PAHT);
+            if (!path.exists()){
+                path.mkdir();
+            }
+            filePath = new File(SAVE_PAHT, getFileNameByUrl(url, contentType)).getPath();
+            saveToLocal(responseBody, filePath);
+
+        } catch (ClientProtocolException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                response.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return filePath;
+    }
+
+    public static void main(String[] args) {
+        String visitUrl = "http://www.lietu.com/";
+        DownLoadFile downLoader=new DownLoadFile();
+        downLoader.downloadFile(visitUrl);
+    }
 }
