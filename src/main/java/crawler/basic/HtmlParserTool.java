@@ -1,7 +1,4 @@
-
-
-import java.util.HashSet;
-import java.util.Set;
+package crawler.basic;
 
 import org.htmlparser.Node;
 import org.htmlparser.NodeFilter;
@@ -12,54 +9,74 @@ import org.htmlparser.tags.LinkTag;
 import org.htmlparser.util.NodeList;
 import org.htmlparser.util.ParserException;
 
-public class HtmlParserTool {
-	// »ñÈ¡Ò»¸öÍøÕ¾ÉÏµÄÁ´½Ó,filter ÓÃÀ´¹ýÂËÁ´½Ó
-	public static Set<String> extracLinks(String url, LinkFilter filter) {
+import java.util.HashSet;
+import java.util.Set;
 
-		Set<String> links = new HashSet<String>();
-		try {
-			Parser parser = new Parser(url);
-			parser.setEncoding("gb2312");
-			// ¹ýÂË <frame >±êÇ©µÄ filter£¬ÓÃÀ´ÌáÈ¡ frame ±êÇ©ÀïµÄ src ÊôÐÔËù±íÊ¾µÄÁ´½Ó
-			NodeFilter frameFilter = new NodeFilter() {
-				public boolean accept(Node node) {
-					if (node.getText().startsWith("frame src=")) {
-						return true;
-					} else {
-						return false;
-					}
-				}
-			};
-			// OrFilter À´ÉèÖÃ¹ýÂË <a> ±êÇ©£¬ºÍ <frame> ±êÇ©
-			OrFilter linkFilter = new OrFilter(new NodeClassFilter(
-					LinkTag.class), frameFilter);
-			// µÃµ½ËùÓÐ¾­¹ý¹ýÂËµÄ±êÇ©
-			NodeList list = parser.extractAllNodesThatMatch(linkFilter);
-			for (int i = 0; i < list.size(); i++) {
-				Node tag = list.elementAt(i);
-				if (tag instanceof LinkTag)// <a> ±êÇ©
-				{
-					LinkTag link = (LinkTag) tag;
-					String linkUrl = link.getLink();// url
-					if (filter.accept(linkUrl))
-						links.add(linkUrl);
-				} else// <frame> ±êÇ©
-				{
-					// ÌáÈ¡ frame Àï src ÊôÐÔµÄÁ´½ÓÈç <frame src="test.html"/>
-					String frame = tag.getText();
-					int start = frame.indexOf("src=");
-					frame = frame.substring(start);
-					int end = frame.indexOf(" ");
-					if (end == -1)
-						end = frame.indexOf(">");
-					String frameUrl = frame.substring(5, end - 1);
-					if (filter.accept(frameUrl))
-						links.add(frameUrl);
-				}
-			}
-		} catch (ParserException e) {
-			e.printStackTrace();
-		}
-		return links;
-	}
+public class HtmlParserTool {
+    // ï¿½ï¿½È¡Ò»ï¿½ï¿½ï¿½ï¿½Õ¾ï¿½Ïµï¿½ï¿½ï¿½ï¿½ï¿½,filter ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+    public static Set<String> extracLinks(String url, LinkFilter filter) {
+
+        Set<String> links = new HashSet<String>();
+        try {
+            Parser parser = new Parser(url);
+            parser.setEncoding("gb2312");
+            // ï¿½ï¿½ï¿½ï¿½ <frame >ï¿½ï¿½Ç©ï¿½ï¿½ filterï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È¡ frame ï¿½ï¿½Ç©ï¿½ï¿½ï¿½ src ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+            NodeFilter frameFilter = new NodeFilter() {
+                public boolean accept(Node node) {
+                    if (node.getText().startsWith("frame src=")) {
+                        return true;
+                    } else {
+                        return false;
+                    }
+                }
+            };
+            // OrFilter ï¿½ï¿½ï¿½ï¿½ï¿½Ã¹ï¿½ï¿½ï¿½ <a> ï¿½ï¿½Ç©ï¿½ï¿½ï¿½ï¿½ <frame> ï¿½ï¿½Ç©
+            OrFilter linkFilter = new OrFilter(new NodeClassFilter(LinkTag.class), frameFilter);
+            // ï¿½Ãµï¿½ï¿½ï¿½ï¿½Ð¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ËµÄ±ï¿½Ç©
+            NodeList list = parser.extractAllNodesThatMatch(linkFilter);
+            for (int i = 0; i < list.size(); i++) {
+                Node tag = list.elementAt(i);
+                if (tag instanceof LinkTag)// <a> ï¿½ï¿½Ç©
+                {
+                    LinkTag link = (LinkTag) tag;
+                    String linkUrl = link.getLink();// url
+                    if (filter.accept(linkUrl)) {
+                        links.add(linkUrl);
+                    }
+                } else// <frame> ï¿½ï¿½Ç©
+                {
+                    // ï¿½ï¿½È¡ frame ï¿½ï¿½ src ï¿½ï¿½ï¿½Ôµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ <frame src="test.html"/>
+                    String frame = tag.getText();
+                    int start = frame.indexOf("src=");
+                    frame = frame.substring(start);
+                    int end = frame.indexOf(" ");
+                    if (end == -1) {
+                        end = frame.indexOf(">");
+                    }
+                    String frameUrl = frame.substring(5, end - 1);
+                    if (filter.accept(frameUrl)) {
+                        links.add(frameUrl);
+                    }
+                }
+            }
+        } catch (ParserException e) {
+            e.printStackTrace();
+        }
+        return links;
+    }
+
+    public static void main(String[] args) {
+        String url = "http://www.lietu.com";
+        LinkFilter filter = new LinkFilter() {
+            public boolean accept(String url) {
+                if (url.startsWith(url)) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+        };
+        Set<String> links = HtmlParserTool.extracLinks(url, filter);
+        System.out.println(links);
+    }
 }

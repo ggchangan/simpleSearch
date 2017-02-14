@@ -1,42 +1,42 @@
-
+package crawler.basic;
 
 import java.sql.Timestamp;
 import java.util.Date;
 
 public class Url {
-	// т╜й╪url╣дж╣ё╛жВ╩З╡©╥жйгсРцШ
+	// т╜й╪urlО©╫О©╫ж╣О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫
 	private String oriUrl;
-	// url╣дж╣ё╛жВ╩З╡©╥жйгIP,н╙ак╥юж╧жь╦╢жВ╩З╣дЁЖож
+	// urlО©╫О©╫ж╣О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫IP,н╙О©╫к╥О©╫ж╧О©╫ь╦О©╫О©╫О©╫О©╫О©╫О©╫дЁО©╫О©╫О©╫
 	private String url;
 	//URL NUM
 	private int urlNo;
-	// ╩Ях║URL╥╣╩ь╣д╫А╧ШбК
+	// О©╫О©╫х║URLО©╫О©╫О©╫ь╣д╫О©╫О©╫О©╫О©╫
 	private int statusCode;
-	// ╢кURL╠╩╠П╣дндубрЩсц╣д╢нйЩ
+	// О©╫О©╫URLО©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ц╣д╢О©╫О©╫О©╫
 	private int hitNum;
-	// ╢кURL╤тс╕ндуб╣д╨╨вж╠ЮбК
+	// О©╫О©╫URLО©╫О©╫с╕О©╫О©╫О©╫б╣д╨О©╫О©╫ж╠О©╫О©╫О©╫
 	private String charSet;
-	// ндубу╙р╙
+	// О©╫О©╫О©╫О©╫у╙р╙
 	private String abstractText;
-	// вВуъ
+	// О©╫О©╫О©╫О©╫
 	private String author;
-	// ндуб╣дх╗жьё╗╟Э╨╛╣╪оР╢й╣дпео╒ё╘
+	// О©╫О©╫О©╫б╣О©╫х╗О©╫ьёО©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫й╣О©╫О©╫О©╫о╒О©╫О©╫
 	private int weight;
-	// ндуб╣дцХйЖ
+	// О©╫О©╫О©╫б╣О©╫О©╫О©╫О©╫О©╫
 	private String description;
-	// ндуб╢Сп║
+	// О©╫О©╫О©╫б╢О©╫п║
 	private int fileSize;
-	// вН╨Спч╦дй╠╪Д
+	// О©╫О©╫О©╫О©╫ч╦О©╫й╠О©╫О©╫
 	private Timestamp lastUpdateTime;
-	// ╧Щфзй╠╪Д
+	// О©╫О©╫О©╫О©╫й╠О©╫О©╫
 	private Date timeToLive;
-	// ндубцШЁф
+	// О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫
 	private String title;
-	// ндубюЮпм
+	// О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫
 	private String type;
-	// рЩсц╣да╢╫с
+	// О©╫О©╫О©╫ц╣О©╫О©╫О©╫О©╫О©╫
 	private String[] urlRefrences;
-    //еюх║╣д╡Ц╢нё╛╢сжжвс©╙й╪ё╛рю╢нн╙╣з0╡Цё╛╣з1╡Ц...
+    //О©╫О©╫х║О©╫д╡О©╫нёО©╫О©╫О©╫О©╫О©╫О©╫с©О©╫й╪О©╫О©╫О©╫О©╫О©╫О©╫н╙О©╫О©╫0О©╫Цё╛О©╫О©╫1О©╫О©╫...
 	private int layer;
 	public String getOriUrl() {
 		return oriUrl;

@@ -1,62 +1,64 @@
-
+package crawler.basic;
 
 import java.util.Set;
 
 public class MyCrawler {
-	/**
-	 * Ê¹ÓÃÖÖ×Ó³õÊ¼»¯ URL ¶ÓÁÐ
-	 * @return
-	 * @param seeds ÖÖ×ÓURL
-	 */ 
-	private void initCrawlerWithSeeds(String[] seeds)
-	{
-		for(int i=0;i<seeds.length;i++)
-			LinkQueue.addUnvisitedUrl(seeds[i]);
-	}	
-	/**
-	 * ×¥È¡¹ý³Ì
-	 * @return
-	 * @param seeds
-	 */
-	public void crawling(String[] seeds)
-	{   //¶¨Òå¹ýÂËÆ÷£¬ÌáÈ¡ÒÔhttp://www.lietu.com¿ªÍ·µÄÁ´½Ó
-		LinkFilter filter = new LinkFilter(){
-			public boolean accept(String url) {
-				if(url.startsWith("http://www.lietu.com"))
-					return true;
-				else
-					return false;
-			}
-		};
-		//³õÊ¼»¯ URL ¶ÓÁÐ
-		initCrawlerWithSeeds(seeds);
-		//Ñ­»·Ìõ¼þ£º´ý×¥È¡µÄÁ´½Ó²»¿ÕÇÒ×¥È¡µÄÍøÒ³²»¶àÓÚ1000
-		while(!LinkQueue.unVisitedUrlsEmpty()&&LinkQueue.getVisitedUrlNum()<=1000)
-		{
-			//¶ÓÍ·URL³ö¶ÓÁÐ
-			String visitUrl=(String)LinkQueue.unVisitedUrlDeQueue();
-			if(visitUrl==null)
-				continue;
-			DownLoadFile downLoader=new DownLoadFile();
-			//ÏÂÔØÍøÒ³
-			downLoader.downloadFile(visitUrl);
-			//¸Ã url ·ÅÈëµ½ÒÑ·ÃÎÊµÄ URL ÖÐ
-			LinkQueue.addVisitedUrl(visitUrl);
-			//ÌáÈ¡³öÏÂÔØÍøÒ³ÖÐµÄ URL
-			
-			Set<String> links=HtmlParserTool.extracLinks(visitUrl,filter);
-			//ÐÂµÄÎ´·ÃÎÊµÄ URL Èë¶Ó
-			for(String link:links)
-			{
-					LinkQueue.addUnvisitedUrl(link);
-			}
-		}
-	}
-	//main ·½·¨Èë¿Ú
-	public static void main(String[]args)
-	{
-		MyCrawler crawler = new MyCrawler();
-		crawler.crawling(new String[]{"http://www.twt.edu.cn"});
-	}
+    //main ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+    public static void main(String[] args) {
+        MyCrawler crawler = new MyCrawler();
+        //crawler.crawling(new String[] {"http://www.twt.edu.cn"});
+        crawler.crawling(new String[] {"http://www.twt.edu.cn", "http://lietu.com/"});
+    }
+
+    /**
+     * Ê¹ï¿½ï¿½ï¿½ï¿½ï¿½Ó³ï¿½Ê¼ï¿½ï¿½ URL ï¿½ï¿½ï¿½ï¿½
+     *
+     * @param seeds ï¿½ï¿½ï¿½ï¿½URL
+     * @return
+     */
+    private void initCrawlerWithSeeds(String[] seeds) {
+        for (int i = 0; i < seeds.length; i++)
+            LinkQueue.addUnvisitedUrl(seeds[i]);
+    }
+
+    /**
+     * ×¥È¡ï¿½ï¿½ï¿½ï¿½
+     *
+     * @param seeds
+     * @return
+     */
+    public void crawling(String[] seeds) {   //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È¡ï¿½ï¿½http://www.lietu.comï¿½ï¿½Í·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+        LinkFilter filter = new LinkFilter() {
+            public boolean accept(String url) {
+                if (url.startsWith("http://www.lietu.com")) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+        };
+        //ï¿½ï¿½Ê¼ï¿½ï¿½ URL ï¿½ï¿½ï¿½ï¿½
+        initCrawlerWithSeeds(seeds);
+        //Ñ­ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½×¥È¡ï¿½ï¿½ï¿½ï¿½ï¿½Ó²ï¿½ï¿½ï¿½ï¿½ï¿½×¥È¡ï¿½ï¿½ï¿½ï¿½Ò³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½1000
+        while (!LinkQueue.unVisitedUrlsEmpty() && LinkQueue.getVisitedUrlNum() <= 1000) {
+            //ï¿½ï¿½Í·URLï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+            String visitUrl = (String) LinkQueue.unVisitedUrlDeQueue();
+            if (visitUrl == null) {
+                continue;
+            }
+            DownLoadFile downLoader = new DownLoadFile();
+            //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò³
+            downLoader.downloadFile(visitUrl);
+            //ï¿½ï¿½ url ï¿½ï¿½ï¿½ëµ½ï¿½Ñ·ï¿½ï¿½Êµï¿½ URL ï¿½ï¿½
+            LinkQueue.addVisitedUrl(visitUrl);
+            //ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò³ï¿½Ðµï¿½ URL
+
+            Set<String> links = HtmlParserTool.extracLinks(visitUrl, filter);
+            //ï¿½Âµï¿½Î´ï¿½ï¿½ï¿½Êµï¿½ URL ï¿½ï¿½ï¿½
+            for (String link : links) {
+                LinkQueue.addUnvisitedUrl(link);
+            }
+        }
+    }
 
 }
