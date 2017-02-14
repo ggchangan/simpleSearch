@@ -13,10 +13,13 @@ import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.nio.file.Path;
 
 public class DownLoadFile {
-    public static final String SAVE_PAHT = "data";
+    public static final String SAVE_PATH = "data";
     /**
      * ���� url ����ҳ����������Ҫ�������ҳ���ļ��� ȥ���� url �з��ļ����ַ�
      */
@@ -38,6 +41,28 @@ public class DownLoadFile {
         return filename;
     }
 
+    public String getFilePathByUrl(String url, String contentType) {
+        String path = null;
+        try {
+            URI uri = new URI(url);
+            System.out.println("uri scheme:" + uri.getScheme());
+            System.out.println("uri host:" + uri.getHost());
+            System.out.println("uri path:" + uri.getPath());
+            System.out.println("uri port:" + uri.getPort());
+            System.out.println("uri query:" + uri.getQuery());
+
+            path = uri.getPath();
+            //主页
+            if (path.equalsIgnoreCase("/")) {
+                path = "/index.html";
+            }
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
+
+        return path;
+    }
+
     /**
      * ������ҳ�ֽ����鵽�����ļ� filePath ΪҪ������ļ�����Ե�ַ
      */
@@ -55,29 +80,47 @@ public class DownLoadFile {
 
     /* ���� url ָ�����ҳ */
     public String downloadFile(String url) {
-        String filePath = null;
+        System.out.println(url);
         CloseableHttpClient httpclient = HttpClients.createDefault();
         HttpGet httpGet = new HttpGet(url);
 
         CloseableHttpResponse response = null;
+        File savePath = null;
         try {
             response = httpclient.execute(httpGet);
             int statusCode = response.getStatusLine().getStatusCode();
             if (statusCode != HttpStatus.SC_OK){
                 System.err.println("Method failed: " + response.getStatusLine());
-                filePath = null;
+                return null;
             }
 
             HttpEntity entity = response.getEntity();
             byte[] responseBody = EntityUtils.toByteArray(entity);
-            String contentType = response.getFirstHeader("Content-Type").getValue();
-            File path = new File(SAVE_PAHT);
-            if (!path.exists()){
-                path.mkdir();
-            }
-            filePath = new File(SAVE_PAHT, getFileNameByUrl(url, contentType)).getPath();
-            saveToLocal(responseBody, filePath);
+            //TODO Fix 同名文件出现在目录之前，会导致目录不可被创建，而导致文件保存失败！
+            /*
+            如何区分下面的三个链接？
+            URI uri1 = new URI("http://www.lietu.com/train");
+            URI uri2 = new URI("http://www.lietu.com/train/");
+            URI uri3 = new URI("http://www.lietu.com/train.html");
+            http://www.lietu.com/train 是被当做目录还是文件，怎样区分？
+             */
+            try {
+                String uriPath = new URI(url).getPath();
+                //主页
+                if (uriPath==null || uriPath.isEmpty() || uriPath.endsWith("/")) {
+                    uriPath += "index.html";
+                } else if(!uriPath.endsWith("/") && !uriPath.substring(uriPath.lastIndexOf("/"), uriPath.length()).contains(".")){
+                    uriPath += "/index.html";
+                }
+                savePath = new File(SAVE_PATH, new File(uriPath).toString());
+                if (!savePath.getParentFile().exists()){
+                    savePath.getParentFile().mkdirs();
+                }
 
+                saveToLocal(responseBody, savePath.getPath());
+            } catch (URISyntaxException e) {
+                e.printStackTrace();
+            }
         } catch (ClientProtocolException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -90,7 +133,7 @@ public class DownLoadFile {
             }
         }
 
-        return filePath;
+        return savePath!=null?savePath.getPath():null;
     }
 
     public static void main(String[] args) {
