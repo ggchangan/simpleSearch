@@ -1,4 +1,7 @@
 /.idea
+/data
+error
+*.iml
 ### Vim template
 [._]*.s[a-w][a-z]
 [._]s[a-w][a-z]
