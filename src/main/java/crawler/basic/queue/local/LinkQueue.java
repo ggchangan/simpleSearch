@@ -1,7 +1,7 @@
 package crawler.basic.queue.local;
 
 import crawler.basic.queue.common.Unvisited;
-import crawler.basic.queue.Visited;
+import crawler.basic.queue.common.Visited;
 
 import java.util.HashSet;
 import java.util.PriorityQueue;
