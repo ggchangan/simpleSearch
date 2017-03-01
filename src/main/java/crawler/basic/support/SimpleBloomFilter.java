@@ -1,4 +1,4 @@
-package crawler.basic;
+package crawler.basic.support;
 
 import java.util.BitSet;
 

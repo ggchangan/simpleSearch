@@ -1,4 +1,4 @@
-package crawler.basic.parser;
+package crawler.basic.util;
 
 /**
  * Created by magneto on 16-5-24.

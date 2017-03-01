@@ -1,4 +1,4 @@
-package crawler.basic.parser;
+package crawler.basic.util;
 
 import org.json.JSONObject;
 

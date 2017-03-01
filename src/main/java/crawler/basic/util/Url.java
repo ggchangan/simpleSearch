@@ -1,4 +1,4 @@
-package crawler.basic;
+package crawler.basic.util;
 
 import java.sql.Timestamp;
 import java.util.Date;

@@ -1,4 +1,4 @@
-package crawler.basic;
+package crawler.basic.queue.local;
 
 import java.util.LinkedList;
 /**

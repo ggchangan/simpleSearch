@@ -1,4 +1,4 @@
-package crawler.basic;
+package crawler.basic.parser;
 
 import org.htmlparser.Node;
 import org.htmlparser.NodeFilter;

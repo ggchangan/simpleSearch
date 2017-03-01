@@ -1,8 +1,13 @@
-package crawler.basic;
+package crawler.basic.queue.local;
+
+import crawler.basic.support.DownLoadFile;
+import crawler.basic.parser.HtmlParserTool;
+import crawler.basic.parser.LinkFilter;
 
 import java.util.Set;
 
 public class MyCrawler {
+    private LinkQueue localQueue = new LinkQueue();
     //main �������
     public static void main(String[] args) {
         MyCrawler crawler = new MyCrawler();
@@ -17,8 +22,9 @@ public class MyCrawler {
      * @return
      */
     private void initCrawlerWithSeeds(String[] seeds) {
-        for (int i = 0; i < seeds.length; i++)
-            LinkQueue.addUnvisitedUrl(seeds[i]);
+        for (int i = 0; i < seeds.length; i++) {
+            localQueue.addUnvisited(seeds[i]);
+        }
     }
 
     /**
@@ -37,26 +43,23 @@ public class MyCrawler {
                 }
             }
         };
-        //��ʼ�� URL ����
         initCrawlerWithSeeds(seeds);
-        //ѭ����������ץȡ�����Ӳ�����ץȡ����ҳ������1000
-        while (!LinkQueue.unVisitedUrlsEmpty() && LinkQueue.getVisitedUrlNum() <= 1000) {
-            //��ͷURL������
-            String visitUrl = (String) LinkQueue.unVisitedUrlDeQueue();
-            if (visitUrl == null) {
+        while (!localQueue.unvisitedEmpty() && localQueue.getVisitedNumber() <= 1000) {
+            String visitedUrl = localQueue.getUnvisited();
+            if (visitedUrl == null) {
                 continue;
             }
             DownLoadFile downLoader = new DownLoadFile();
             //������ҳ
-            downLoader.downloadFile(visitUrl);
+            downLoader.downloadFile(visitedUrl);
             //�� url ���뵽�ѷ��ʵ� URL ��
-            LinkQueue.addVisitedUrl(visitUrl);
+            localQueue.addVisited(visitedUrl);
             //��ȡ��������ҳ�е� URL
 
-            Set<String> links = HtmlParserTool.extracLinks(visitUrl, filter);
+            Set<String> links = HtmlParserTool.extracLinks(visitedUrl, filter);
             //�µ�δ���ʵ� URL ���
             for (String link : links) {
-                LinkQueue.addUnvisitedUrl(link);
+                localQueue.addUnvisited(link);
             }
         }
     }

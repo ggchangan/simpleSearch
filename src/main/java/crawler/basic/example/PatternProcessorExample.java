@@ -1,4 +1,4 @@
-package crawler;
+package crawler.basic.example;
 
 import org.apache.log4j.Logger;
 import us.codecraft.webmagic.*;

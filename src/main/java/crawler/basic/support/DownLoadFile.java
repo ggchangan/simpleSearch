@@ -1,4 +1,4 @@
-package crawler.basic;
+package crawler.basic.support;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpStatus;
@@ -15,8 +15,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.net.URL;
-import java.nio.file.Path;
 
 public class DownLoadFile {
     public static final String SAVE_PATH = "data";

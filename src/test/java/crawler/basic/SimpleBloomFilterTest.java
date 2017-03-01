@@ -1,5 +1,6 @@
 package crawler.basic;
 
+import crawler.basic.support.SimpleBloomFilter;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
